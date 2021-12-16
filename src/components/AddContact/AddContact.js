@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './addContact.css';
 
 const AddContact = ({addContactHandler}) => { 
     const [contact, setContact] = useState({ name: "", email: ""});
@@ -6,6 +7,10 @@ const AddContact = ({addContactHandler}) => {
         setContact({...contact, [e.target.name] : e.target.value})
     }
     const submitForm = (e) => {
+        if( !contact.name || !contact.email){
+            alert("all fields are mandatory !");
+            return;
+        }
         e.preventDefault();
         addContactHandler(contact);
         setContact({ name: "", email: ""})
