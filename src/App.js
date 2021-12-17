@@ -8,6 +8,8 @@ import ContactDetail from './components/ContactDetail/ContactDetail';
 import { getALLContacts } from './services/getAllContactsService';
 import { deleteContacts } from './services/deleteContactService';
 import { addOneContact } from './services/addContactService';
+import EditContact from './components/EditContact/EditContact';
+import { updateContact } from './services/updateContactService';
 
 function App() {
   
@@ -20,6 +22,13 @@ function App() {
     }
     catch(error){}
   }
+
+  const editContactHandler = async (contact, id) => {
+    await updateContact(id, contact);
+    const {data} = await getALLContacts();
+    setContacts(data);
+  }
+
   const deleteContractHandler = async (id) => {
     try{
       const filteredContacts = contacts.filter((contact) => contact.id !== id);
@@ -55,6 +64,15 @@ function App() {
         ))}
       </Switch> */}
       <Switch>
+        <Route 
+          path="/edit/:id" 
+          render={ (props) => 
+            <EditContact 
+              editContactHandler={editContactHandler} 
+              {...props}
+            />
+          }
+        />
         <Route 
           path="/user/:id" 
           component={ContactDetail}
