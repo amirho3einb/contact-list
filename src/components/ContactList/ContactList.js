@@ -1,14 +1,12 @@
+import './ContactList.css';
+import Contact from './Contact/Contact';
+
 const ContactList = ({ contacts, onDelete }) => {
     return ( 
         <>
             {contacts.map((contact) => {
-                const { name, email, id} = contact;
                 return(
-                    <div key={id}>
-                        <div>name : {name}</div>
-                        <div>email :{email}</div>
-                        <button onClick={() => onDelete(id)}>delete</button>
-                    </div>
+                    <Contact contact={contact} onDelete={onDelete}/>
                 )
             })}
         </>

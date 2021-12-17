@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { Route , Switch } from "react-router-dom";
 import AddContact from './components/AddContact/AddContact';
 import ContactList from './components/ContactList/ContactList';
+import { Link } from "react-router-dom";
+import ContactDetail from './components/ContactDetail/ContactDetail';
 
 function App() {
   
@@ -31,8 +34,39 @@ function App() {
   return (
     <main className="App">
       <h1>Contact App</h1>
-      <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts} onDelete={deleteContractHandler}/> 
+      <Link to="./add" className="addBtn"><button>Add New Contact</button></Link>
+      {/* <Switch>
+        {routes.map((route)=>(
+          <Route {...route}/>
+        ))}
+      </Switch> */}
+      <Switch>
+        <Route 
+          path="/user/:id" 
+          component={ContactDetail}
+        />
+        <Route 
+          path="/add" 
+          render={ (props) => 
+          <AddContact 
+            addContactHandler={addContactHandler} 
+            {...props}
+          />
+          }
+        />
+        <Route 
+          path="/" 
+          exact 
+          render={ (props) => 
+          <ContactList 
+            contacts={contacts} 
+            onDelete={deleteContractHandler} 
+            {...props}
+          />}
+        />
+      </Switch>
+      {/* <AddContact addContactHandler={addContactHandler} />
+      <ContactList contacts={contacts} onDelete={deleteContractHandler}/>  */}
     </main>
   );
 }

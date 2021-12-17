@@ -1,7 +1,7 @@
 import { useState } from "react";
 import './addContact.css';
 
-const AddContact = ({addContactHandler}) => { 
+const AddContact = ({addContactHandler, history}) => { 
     const [contact, setContact] = useState({ name: "", email: ""});
     const chnageHandler = (e) => {
         setContact({...contact, [e.target.name] : e.target.value})
@@ -14,6 +14,7 @@ const AddContact = ({addContactHandler}) => {
         e.preventDefault();
         addContactHandler(contact);
         setContact({ name: "", email: ""})
+        history.push("/");
     }
     return ( 
         <form onSubmit={submitForm}>

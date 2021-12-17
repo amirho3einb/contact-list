@@ -1,0 +1,31 @@
+.contactRow {
+  border: 1px solid #ccc;
+  display: flex;
+  width: 50%;
+  margin: 10px auto;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  background-color: #fff;
+}
+.contactRow button {
+  outline: none;
+  border: 1px solid rgb(223, 62, 62);
+  color: rgb(223, 62, 62);
+  background-color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.contactRow button:hover {
+  color: #fff;
+  background-color: rgb(223, 62, 62);
+}
+.detail span {
+  color: #7c3aed;
+}
+a {
+  text-decoration: none;
+}
