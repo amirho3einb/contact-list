@@ -5,30 +5,44 @@ import AddContact from './components/AddContact/AddContact';
 import ContactList from './components/ContactList/ContactList';
 import { Link } from "react-router-dom";
 import ContactDetail from './components/ContactDetail/ContactDetail';
+import { getALLContacts } from './services/getAllContactsService';
+import { deleteContacts } from './services/deleteContactService';
+import { addOneContact } from './services/addContactService';
 
 function App() {
   
   const [contacts, setContacts] = useState([]);
   
-  const addContactHandler = (contact) => {
-    setContacts([...contacts, { id: Math.ceil(Math.random() * 100), ...contact }]);
+  const addContactHandler = async (contact) => {
+    try{
+      const {data} = await addOneContact(contact);
+      setContacts([...contacts, data]);
+    }
+    catch(error){}
   }
-  const deleteContractHandler = (id) => {
-    const filteredContacts = contacts.filter((contact) => contact.id !== id);
-    setContacts(filteredContacts);
+  const deleteContractHandler = async (id) => {
+    try{
+      const filteredContacts = contacts.filter((contact) => contact.id !== id);
+      setContacts(filteredContacts);
+      await deleteContacts(id);
+    }
+    catch(error){}
   }
 
-  // CDM => get data
-  // contacts => save => 
   useEffect(()=>{
-    const savedContacts = JSON.parse(localStorage.getItem("contacts"));
-    if(savedContacts){
-      setContacts(savedContacts);
+    const getContacts = async () => {
+      const { data } = await getALLContacts();
+      setContacts(data);
+    };
+    try {
+      getContacts();
     }
+    catch(error) {}
   }, []);
-  useEffect(()=>{
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+
+  // useEffect(()=>{
+  //   localStorage.setItem("contacts", JSON.stringify(contacts));
+  // }, [contacts]);
   
 
   return (
