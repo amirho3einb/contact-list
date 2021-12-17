@@ -1,104 +1,22 @@
-import { useEffect, useState } from 'react';
 import './App.css';
 import { Route , Switch } from "react-router-dom";
 import AddContact from './components/AddContact/AddContact';
 import ContactList from './components/ContactList/ContactList';
 import { Link } from "react-router-dom";
 import ContactDetail from './components/ContactDetail/ContactDetail';
-import { getALLContacts } from './services/getAllContactsService';
-import { deleteContacts } from './services/deleteContactService';
-import { addOneContact } from './services/addContactService';
 import EditContact from './components/EditContact/EditContact';
-import { updateContact } from './services/updateContactService';
 
 function App() {
-  
-  const [contacts, setContacts] = useState([]);
-  
-  const addContactHandler = async (contact) => {
-    try{
-      const {data} = await addOneContact(contact);
-      setContacts([...contacts, data]);
-    }
-    catch(error){}
-  }
-
-  const editContactHandler = async (contact, id) => {
-    await updateContact(id, contact);
-    const {data} = await getALLContacts();
-    setContacts(data);
-  }
-
-  const deleteContractHandler = async (id) => {
-    try{
-      const filteredContacts = contacts.filter((contact) => contact.id !== id);
-      setContacts(filteredContacts);
-      await deleteContacts(id);
-    }
-    catch(error){}
-  }
-
-  useEffect(()=>{
-    const getContacts = async () => {
-      const { data } = await getALLContacts();
-      setContacts(data);
-    };
-    try {
-      getContacts();
-    }
-    catch(error) {}
-  }, []);
-
-  // useEffect(()=>{
-  //   localStorage.setItem("contacts", JSON.stringify(contacts));
-  // }, [contacts]);
-  
-
   return (
     <main className="App">
       <h1>Contact App</h1>
       <Link to="./add" className="addBtn"><button>Add New Contact</button></Link>
-      {/* <Switch>
-        {routes.map((route)=>(
-          <Route {...route}/>
-        ))}
-      </Switch> */}
       <Switch>
-        <Route 
-          path="/edit/:id" 
-          render={ (props) => 
-            <EditContact 
-              editContactHandler={editContactHandler} 
-              {...props}
-            />
-          }
-        />
-        <Route 
-          path="/user/:id" 
-          component={ContactDetail}
-        />
-        <Route 
-          path="/add" 
-          render={ (props) => 
-          <AddContact 
-            addContactHandler={addContactHandler} 
-            {...props}
-          />
-          }
-        />
-        <Route 
-          path="/" 
-          exact 
-          render={ (props) => 
-          <ContactList 
-            contacts={contacts} 
-            onDelete={deleteContractHandler} 
-            {...props}
-          />}
-        />
+        <Route path="/edit/:id" component={ EditContact }/>
+        <Route path="/user/:id" component={ContactDetail}/>
+        <Route path="/add" component={AddContact}/>
+        <Route path="/" exact component={ ContactList }/>
       </Switch>
-      {/* <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts} onDelete={deleteContractHandler}/>  */}
     </main>
   );
 }
